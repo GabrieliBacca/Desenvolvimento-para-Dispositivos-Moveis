@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="launcher">
+        <State />
+      </entry>
+      <entry key="listagem-nomes">
+        <State />
+      </entry>
+      <entry key="listagemdados">
+        <State />
+      </entry>
+      <entry key="paint">
+        <State />
+      </entry>
+      <entry key="sensores">
+        <State />
+      </entry>
+      <entry key="sqliteex">
+        <State />
+      </entry>
+      <entry key="tabelanutricional">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>

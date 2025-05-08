@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paint"
+        android:textColor="@color/black"
+        android:textSize="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="-5dp" />
+
+    <com.example.simplepaint.SimplePaint
+        android:id="@+id/simplePaint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPickerView"
+
+        />
+
+    <com.skydoves.colorpickerview.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        app:debounceDuration="200"
+        app:layout_constraintEnd_toStartOf="@+id/penButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/circleButton"
+        android:layout_width="67dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/penButton"
+        app:layout_constraintEnd_toStartOf="@+id/squareButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/penButton"
+        app:layout_constraintTop_toTopOf="@+id/penButton"
+        app:srcCompat="@drawable/circle_icon" />
+
+    <ImageButton
+        android:id="@+id/penButton"
+        android:layout_width="52dp"
+        android:layout_height="46dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/colorPickerView"
+        app:layout_constraintEnd_toStartOf="@+id/circleButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/colorPickerView"
+        app:layout_constraintTop_toTopOf="@+id/colorPickerView"
+        app:srcCompat="@drawable/pen_svgrepo_com" />
+
+    <ImageButton
+        android:id="@+id/squareButton"
+        android:layout_width="64dp"
+        android:layout_height="53dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/square"
+        app:layout_constraintBottom_toBottomOf="@+id/circleButton"
+        app:layout_constraintEnd_toStartOf="@+id/undoButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/circleButton"
+        app:layout_constraintTop_toTopOf="@+id/circleButton" />
+
+    <ImageButton
+        android:id="@+id/undoButton"
+        android:layout_width="63dp"
+        android:layout_height="51dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/squareButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/squareButton"
+        app:layout_constraintTop_toTopOf="@+id/squareButton"
+        app:srcCompat="@drawable/undo_left_svgrepo_com" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

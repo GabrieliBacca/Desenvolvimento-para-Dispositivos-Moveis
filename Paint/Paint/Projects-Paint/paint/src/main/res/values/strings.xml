@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SimplePaint</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+</resources>
