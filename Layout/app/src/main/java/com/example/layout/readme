@@ -1,0 +1,20 @@
+A. O que é uma View no Android Framework?
+
+View é uma classe do Java usada para criar elementos visuais e interativos na tela do aplicativo. Existem vários tipos prontos, como EditText, Button, ImageView, entre outros. Também é possível criar uma View personalizada, implementando seus próprios comportamentos e estilos a partir dos elementos básicos fornecidos pela API do Android.
+
+B. O que é um ViewGroup no contexto da interface do Android?
+
+ViewGroup é um tipo especial de View que serve como contêiner para agrupar outras Views. Ele é como um "layout", responsável por organizar e posicionar os elementos filhos dentro da interface. Em outras palavras, é uma View que comporta outras Views dentro dela.
+
+C. Qual é a função dos LayoutParams dentro de um ViewGroup?
+
+LayoutParams são os parâmetros que definem como cada View será exibida dentro do seu ViewGroup. Eles controlam coisas como tamanho, margem, alinhamento e posicionamento na tela. É através deles que o ViewGroup entende como deve colocar cada elemento no layout.
+
+D. Por que diferentes ViewGroups (como LinearLayout, ConstraintLayout, FrameLayout) utilizam subclasses específicas de LayoutParams?
+
+Cada tipo de ViewGroup organiza suas Views de uma forma própria,
+então precisa de parâmetros específicos para isso. Por exemplo,
+o LinearLayout organiza os elementos em sequência, como se fossem blocos empilhados,
+já o ConstraintLayout posiciona os itens com base em relações de distância entre eles e as bordas, enquanto
+o FrameLayout coloca os elementos um sobre o outro.
+Por isso, cada um precisa de uma subclasse diferente de LayoutParams, com as propriedades necessárias para funcionar corretamente.

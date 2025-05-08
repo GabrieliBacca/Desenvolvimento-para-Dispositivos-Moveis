@@ -1,0 +1,5 @@
+<resources>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <string name="app_name">APP</string>
+</resources>
