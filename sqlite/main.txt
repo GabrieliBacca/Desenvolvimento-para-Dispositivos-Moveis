@@ -1,0 +1,144 @@
+package com.ifsc.sqlite;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    // Declaração de variáveis principais
+    SQLiteDatabase db;                 // Banco de dados SQLite
+    Button salvar;                     // Botão para salvar ou atualizar notas
+    TextView texto;                    // Campo de entrada de texto
+    ListView listView;                 // Lista que exibe as notas
+    ArrayList<Nota> notas = new ArrayList<>(); // Lista de objetos Nota
+    Integer id;                        // Armazena o ID da nota sendo editada (se houver)
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Ativa suporte para layout em tela cheia (API 30+)
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        // Ajusta o padding da view principal para evitar sobreposição com barras do sistema
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Conecta os componentes do layout
+        salvar = findViewById(R.id.salvar);
+        texto = findViewById(R.id.texto);
+        listView = findViewById(R.id.view);
+
+        // Cria ou abre o banco de dados SQLite chamado "notas"
+        db = openOrCreateDatabase("notas", MODE_PRIVATE, null);
+
+        // Cria a tabela "NOTAS" se ainda não existir
+        db.execSQL("CREATE TABLE IF NOT EXISTS NOTAS (" +
+                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "TEXTO TEXT)");
+
+        // Configura ação do botão "salvar"
+        salvar.setOnClickListener(b -> {
+            if (id != null) {
+                // Se já existe um ID, atualiza a nota existente
+                atualizaNota(id, texto.getText().toString());
+            } else {
+                // Se não, insere uma nova nota
+                insereNota(texto.getText().toString());
+            }
+
+            // Limpa o campo de texto e o ID atual
+            texto.setText("");
+            id = null;
+
+            // Recarrega a lista com as notas atualizadas
+            loadNotas();
+        });
+
+        // Evento de clique longo em item da lista: remove a nota
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            deletarNota(notas.get(i).getId());
+            loadNotas(); // Atualiza a lista após exclusão
+            return false;
+        });
+
+        // Evento de clique curto: preenche o campo de texto para edição
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Nota nota = notas.get(i); // Obtém a nota clicada
+            texto.setText(nota.getTexto()); // Preenche o campo de texto com o conteúdo da nota
+            id = nota.getId(); // Armazena o ID da nota para futura atualização
+        });
+
+        // Carrega a lista de notas ao iniciar a tela
+        loadNotas();
+    }
+
+    // Método para carregar todas as notas do banco de dados
+    void loadNotas() {
+        notas.clear(); // Limpa a lista atual
+
+        // Executa consulta SQL que retorna todas as notas
+        Cursor cursor = db.rawQuery("SELECT * FROM notas", null);
+        cursor.moveToFirst(); // Move para o primeiro registro
+
+        // Pega os índices das colunas "ID" e "TEXTO"
+        int cId = cursor.getColumnIndex("ID");
+        int cTexto = cursor.getColumnIndex("TEXTO");
+
+        // Percorre todos os registros e adiciona à lista de objetos Nota
+        while (!cursor.isAfterLast()) {
+            notas.add(new Nota(cursor.getInt(cId), cursor.getString(cTexto)));
+            cursor.moveToNext();
+        }
+
+        // Cria o adapter personalizado para exibir as notas na lista
+        AdapterNota adapter = new AdapterNota(getApplicationContext(),
+                android.R.layout.simple_list_item_1, notas);
+
+        // Define o adapter na ListView
+        listView.setAdapter(adapter);
+
+        // Fecha o cursor
+        cursor.close();
+    }
+
+    // Insere uma nova nota no banco de dados
+    Long insereNota(String insert) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TEXTO", insert);
+
+        // Insere no banco e retorna o ID da nova nota
+        return db.insert("notas", null, contentValues);
+    }
+
+    // Atualiza uma nota existente no banco de dados
+    void atualizaNota(int id, String update) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TEXTO", update);
+
+        // Atualiza o texto da nota onde o ID for igual
+        db.update("notas", contentValues, "id=?", new String[]{Integer.toString(id)});
+    }
+
+    // Exclui uma nota do banco de dados com base no ID
+    void deletarNota(int delete) {
+        db.delete("notas", "ID = ?", new String[]{Integer.toString(delete)});
+    }
+}
